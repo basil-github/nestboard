@@ -1,0 +1,41 @@
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { {{className}} } from './modals/main';
+import { Create{{className}} } from './modals/create';
+
+@Injectable()
+export class {{className}}Service {
+  constructor(
+    @InjectModel({{className}})
+    private {{singularName}}Modal: typeof {{className}},
+  ) {}
+
+  async create(createDto: Create{{className}}): Promise<any> {
+    return await this.{{singularName}}Modal.create({ ...createDto });
+  }
+
+  async update(id: string, body) {
+    return await this.{{singularName}}Modal.update(body, {
+      where: {
+        id,
+      },
+    });
+  }
+
+  async findAll(): Promise<{{className}}[]> {
+    return await this.{{singularName}}Modal.findAll();
+  }
+
+  async findOne(id: string): Promise<{{className}}> {
+    return await this.{{singularName}}Modal.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async remove(id: string): Promise<void> {
+    const user = await this.findOne(id);
+    await user.destroy();
+  }
+}

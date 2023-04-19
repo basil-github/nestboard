@@ -1,0 +1,3 @@
+import { OmitType, PartialType } from '@nestjs/swagger';
+import { {{className}} } from './main';
+export class Read{{className}} extends PartialType(OmitType({{className}}, [] as const)) {}

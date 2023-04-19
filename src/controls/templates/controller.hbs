@@ -1,0 +1,45 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { {{className}}Service } from './{{singularName}}.service';
+import { Create{{className}} } from './modals/create';
+import { Update{{className}} } from './modals/update';
+import { Read{{className}} } from './modals/read';
+
+@Controller('{{pluralName}}')
+@ApiTags('{{className}}s')
+export class {{className}}Controller {
+  constructor(private readonly {{singularName}}Service: {{className}}Service) {}
+
+  @Post()
+  create(@Body() create{{className}}: Create{{className}}): Promise<Create{{className}}> {
+    return this.{{singularName}}Service.create(create{{className}});
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() update{{className}}: Update{{className}}) {
+    return this.{{singularName}}Service.update(id, update{{className}});
+  }
+  @Get()
+  @ApiTags('collection')
+  findAll(): Promise<Read{{className}}[]> {
+    return this.{{singularName}}Service.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<Read{{className}}> {
+    return this.{{singularName}}Service.findOne(id);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<void> {
+    return this.{{singularName}}Service.remove(id);
+  }
+}

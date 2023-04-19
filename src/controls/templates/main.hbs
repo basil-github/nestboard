@@ -1,0 +1,20 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Column, Model, Table } from 'sequelize-typescript';
+@Table
+export class {{className}} extends Model {
+  @Column
+  @ApiProperty()
+  tittle: string;
+
+  @Column
+  @ApiProperty()
+  content: string;
+
+  @Column
+  @ApiProperty()
+  author: string;
+
+  @Column({ defaultValue: true })
+  @ApiProperty()
+  isActive: boolean;
+}

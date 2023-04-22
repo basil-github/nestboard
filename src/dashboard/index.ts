@@ -25,6 +25,12 @@ export class DashBoardModule {
         });
       }
     );
+    httpAdapter.delete(
+      `${path}/delete-collection/:api`,
+      (req: Request, res: Response) => {
+        ControlModule.delete(req.params.api)
+      }
+    );
     ControlModule.createApiRoot();
   }
 }

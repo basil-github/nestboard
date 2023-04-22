@@ -1,20 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Model, Table } from 'sequelize-typescript';
+import { IsEnum, IsEmail } from 'class-validator';
+import {
+  Column,
+  Model,
+  DataType,
+  Table,
+  BeforeSave,
+} from 'sequelize-typescript';
+import * as bcrypt from 'bcrypt';
+import { UUIDV4 } from 'sequelize';
 @Table
 export class {{className}} extends Model {
-  @Column
-  @ApiProperty()
-  tittle: string;
-
-  @Column
-  @ApiProperty()
-  content: string;
-
-  @Column
-  @ApiProperty()
-  author: string;
-
-  @Column({ defaultValue: true })
-  @ApiProperty()
-  isActive: boolean;
+  {{#modals}}
+      {{{this}}}
+  {{/modals}}
+ 
 }

@@ -20,6 +20,9 @@ class DashBoardModule {
                 res.send(document);
             });
         });
+        httpAdapter.delete(`${path}/delete-collection/:api`, (req, res) => {
+            create_1.ControlModule.delete(req.params.api);
+        });
         create_1.ControlModule.createApiRoot();
     }
 }

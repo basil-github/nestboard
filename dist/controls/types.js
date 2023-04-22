@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FelidType = void 0;
 class FelidType {
     static getModal(type, name, enums) {
-        console.log(enums);
         try {
             return this.types
                 .find((i) => i.type == type)
@@ -16,6 +15,11 @@ class FelidType {
     }
     static restructure(attributes) {
         return attributes.map((i) => this.getModal(i.type, i.name, i.enum || ""));
+    }
+    static allTypes() {
+        return this.types.map((i) => ({
+            type: i.type
+        }));
     }
 }
 FelidType.types = [

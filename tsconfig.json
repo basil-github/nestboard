@@ -7,6 +7,6 @@
     "noImplicitAny": true,
     "declaration": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "dist/dashboard/build"],
   "exclude": ["node_modules"]
 }

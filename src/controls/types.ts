@@ -86,8 +86,6 @@ export class FelidType {
     },
   ];
   static getModal(type: string, name: string, enums: string) {
-    console.log(enums);
-
     try {
       return this.types
         .find((i: Attributes) => i.type == type)
@@ -101,6 +99,12 @@ export class FelidType {
     attributes: { type: string; name: string; enum: string }[]
   ) {
     return attributes.map((i) => this.getModal(i.type, i.name, i.enum || ""));
+  }
+  static allTypes() {
+    return this.types.map((i: Attributes) => ({
+      type: i.type
+    }))
+
   }
 }
 export type Attributes = { type: string; modal: string };

@@ -6,6 +6,9 @@ export declare class FelidType {
         name: string;
         enum: string;
     }[]): string[];
+    static allTypes(): {
+        type: string;
+    }[];
 }
 export type Attributes = {
     type: string;

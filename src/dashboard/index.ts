@@ -1,18 +1,28 @@
 import { Request, Response } from "express";
 import { ControlModule } from "../controls/create";
+import { FelidType } from "../controls/types";
+const express = require("express");
+const path = require("path");
+var cors = require('cors');
 
 export class DashBoardModule {
-  static setup(path: string, app: any, document: any): void {
+  static setup(entryPath: string, app: any, document: any): void {
     const httpAdapter = app.getHttpAdapter();
-    httpAdapter.get(
-      `${path}/ui-data-init.js`,
+    httpAdapter.get(`/ui-data-init.json`,
       (req: Request, res: Response) => {
-        res.type("application/json");
-        res.send(document);
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Content-Type", "application/json");
+        const felidType = FelidType.allTypes()
+        res.send({ ...document, felidType });
       }
     );
+    httpAdapter.use(express.static(path.join(__dirname, 'build')));
+    // httpAdapter.get(entryPath, (req: any, res: any) => {
+    //   res.sendFile(path.join(__dirname, 'build', 'index.html'))
+
+    // });
     httpAdapter.post(
-      `${path}/create-collection`,
+      `${entryPath}/create-collection`,
       (req: Request, res: Response) => {
         let data = "";
         req.on("data", (chunk) => {
@@ -26,7 +36,7 @@ export class DashBoardModule {
       }
     );
     httpAdapter.delete(
-      `${path}/delete-collection/:api`,
+      `${entryPath}/delete-collection/:api`,
       (req: Request, res: Response) => {
         ControlModule.delete(req.params.api)
       }

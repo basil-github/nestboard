@@ -109,6 +109,30 @@ class ControlModule {
             fs.writeFileSync(filePath, newContent);
         }
     }
+    static rmvImportModule(className, pluralName, singularName) {
+        const filePath = "src/app.module.ts";
+        const newModule = `${className}Module`;
+        const lineToPrepend = `import { ${newModule} } from './api/${pluralName}/${singularName}.module';\n`;
+        fs.readFile(filePath, "utf8", (err, data) => {
+            if (err) {
+                return err;
+            }
+            const updatedData = data.replace(lineToPrepend, "");
+            if (data.toString().includes(lineToPrepend)) {
+                fs.writeFile(filePath, updatedData, (err) => {
+                    if (err) {
+                        return err;
+                    }
+                });
+            }
+        });
+        const fileContents = fs.readFileSync(filePath, "utf-8");
+        const regex = /(@Module\s*\({\s*imports\s*:\s*\[)(\s*(?:[^[\]]|\[(?:[^[\]]|\[[^[\]]*\])*\])*\s*)(\])/g;
+        const newContent = fileContents.replace(regex, `$1$2${newModule},\n$3`);
+        if (!fileContents.includes(`${className}Module,`)) {
+            fs.writeFileSync(filePath, newContent);
+        }
+    }
     static delete(api) {
         function deleteFolderRecursive(folderPath) {
             console.log(folderPath);
@@ -135,6 +159,7 @@ class ControlModule {
                 }
             }
         }
+        // this.rmvImportModule()
         deleteFolderRecursive(`src/api/${api}/modals`);
         deleteFolderRecursive(`src/api/${api}`);
     }

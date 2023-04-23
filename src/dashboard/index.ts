@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 import { ControlModule } from "../controls/create";
 import { FelidType } from "../controls/types";
+import { async } from "rxjs";
 const express = require("express");
 const path = require("path");
 var cors = require('cors');
 
 export class DashBoardModule {
-  static setup(entryPath: string, app: any, document: any): void {
+  static setup(app: any, document: any): void {
+    const entryPath = "/dashboard"
     const httpAdapter = app.getHttpAdapter();
     httpAdapter.get(`/ui-data-init.json`,
       (req: Request, res: Response) => {
@@ -28,8 +30,8 @@ export class DashBoardModule {
         req.on("data", (chunk) => {
           data += chunk;
         });
-        req.on("end", () => {
-          ControlModule.create(JSON.parse(data));
+        req.on("end", async () => {
+          await ControlModule.create(JSON.parse(data));
           res.type("application/json");
           res.send(document);
         });

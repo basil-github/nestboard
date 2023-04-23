@@ -19,6 +19,7 @@ export class {{className}}Controller {
   constructor(private readonly {{singularName}}Service: {{className}}Service) {}
 
   @Post()
+  @ApiTags('create-collection')
   create(@Body() create{{className}}: Create{{className}}): Promise<Create{{className}}> {
     return this.{{singularName}}Service.create(create{{className}});
   }

@@ -133,6 +133,21 @@ class ControlModule {
             fs.writeFileSync(filePath, newContent);
         }
     }
+    static deleteField(crtArg) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const singularName = crtArg.contentType.singularName.toLowerCase();
+            const pluralName = crtArg.contentType.pluralName.toLowerCase();
+            const className = this.capitalize(singularName);
+            let modals = crtArg.contentType.attributes;
+            modals = yield types_1.FelidType.restructure(modals);
+            try {
+                yield this.createFile(path.join(__dirname, "templates", "main.hbs"), `src/api/${pluralName}/modals/main.ts`, { className, modals });
+            }
+            catch (error) {
+                return error;
+            }
+        });
+    }
     static delete(api) {
         function deleteFolderRecursive(folderPath) {
             console.log(folderPath);

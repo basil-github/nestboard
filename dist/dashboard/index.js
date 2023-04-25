@@ -14,10 +14,9 @@ const create_1 = require("../controls/create");
 const types_1 = require("../controls/types");
 const express = require("express");
 const path = require("path");
-var cors = require('cors');
+var cors = require("cors");
 class DashBoardModule {
     static setup(app, document) {
-        const entryPath = "/dashboard";
         const httpAdapter = app.getHttpAdapter();
         httpAdapter.get(`/ui-data-init.json`, (req, res) => {
             res.setHeader("Access-Control-Allow-Origin", "*");
@@ -25,19 +24,51 @@ class DashBoardModule {
             const felidType = types_1.FelidType.allTypes();
             res.send(Object.assign(Object.assign({}, document), { felidType }));
         });
-        httpAdapter.use(express.static(path.join(__dirname, 'build')));
-        // httpAdapter.get(entryPath, (req: any, res: any) => {
-        //   res.sendFile(path.join(__dirname, 'build', 'index.html'))
-        // });
+        const entryPath = "/nestboard";
+        httpAdapter.use(entryPath, express.static(path.join(__dirname, "build")));
+        httpAdapter.get(entryPath, (req, res) => {
+            res.sendFile(path.join(__dirname, "build", "index.html"));
+        });
         httpAdapter.post(`${entryPath}/create-collection`, (req, res) => {
             let data = "";
             req.on("data", (chunk) => {
                 data += chunk;
             });
             req.on("end", () => __awaiter(this, void 0, void 0, function* () {
-                yield create_1.ControlModule.create(JSON.parse(data));
-                res.type("application/json");
-                res.send(document);
+                try {
+                    yield create_1.ControlModule.create(JSON.parse(data));
+                    res.type("application/json");
+                    res.send(document);
+                }
+                catch (error) {
+                    res.type("application/json");
+                    res.status(500);
+                    res.send({
+                        error: "Something went wrong",
+                    });
+                }
+            }));
+        });
+        httpAdapter.delete(`${entryPath}/delete-field`, (req, res) => {
+            let data = "";
+            req.on("data", (chunk) => {
+                data += chunk;
+            });
+            req.on("end", () => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    yield create_1.ControlModule.deleteField(JSON.parse(data));
+                    res.type("application/json");
+                    res.send({
+                        success: "success",
+                    });
+                }
+                catch (error) {
+                    res.type("application/json");
+                    res.status(500);
+                    res.send({
+                        error: "Something went wrong",
+                    });
+                }
             }));
         });
         httpAdapter.delete(`${entryPath}/delete-collection/:api`, (req, res) => {

@@ -156,6 +156,23 @@ export class ControlModule {
       fs.writeFileSync(filePath, newContent);
     }
   }
+  static async deleteField(crtArg: any) {
+    const singularName = crtArg.contentType.singularName.toLowerCase();
+    const pluralName = crtArg.contentType.pluralName.toLowerCase();
+    const className = this.capitalize(singularName);
+    let modals = crtArg.contentType.attributes;
+    modals = await FelidType.restructure(modals);
+    try {
+      await this.createFile(
+        path.join(__dirname, "templates", "main.hbs"),
+        `src/api/${pluralName}/modals/main.ts`,
+        { className, modals }
+      );
+    } catch (error) {
+      return error;
+    }
+  }
+
   static delete(api: string) {
     function deleteFolderRecursive(folderPath: string) {
       console.log(folderPath);

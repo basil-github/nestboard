@@ -7,5 +7,6 @@ export declare class ControlModule {
     static capitalize: (s: string) => string;
     static importModule(className: string, pluralName: string, singularName: string): void;
     static rmvImportModule(className: string, pluralName: string, singularName: string): void;
+    static deleteField(crtArg: any): Promise<any>;
     static delete(api: string): void;
 }

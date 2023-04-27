@@ -18,13 +18,24 @@ var cors = require("cors");
 class DashBoardModule {
     static setup(app, document) {
         const httpAdapter = app.getHttpAdapter();
+        const entryPath = "/nestboard";
+        httpAdapter.get(`${entryPath}/sse`, (req, res) => {
+            res.setHeader("Content-Type", "text/event-stream");
+            res.setHeader("Cache-Control", "no-cache");
+            res.setHeader("Connection", "keep-alive");
+            const dataInterval = setInterval(() => {
+                res.write(`data: ${JSON.stringify(true)}\n\n`);
+            }, 1000);
+            req.on("close", () => {
+                clearInterval(dataInterval);
+            });
+        });
         httpAdapter.get(`/ui-data-init.json`, (req, res) => {
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.setHeader("Content-Type", "application/json");
             const felidType = types_1.FelidType.allTypes();
             res.send(Object.assign(Object.assign({}, document), { felidType }));
         });
-        const entryPath = "/nestboard";
         httpAdapter.use(entryPath, express.static(path.join(__dirname, "build")));
         httpAdapter.get(entryPath, (req, res) => {
             res.sendFile(path.join(__dirname, "build", "index.html"));

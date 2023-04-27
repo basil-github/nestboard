@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { {{className}} } from './modals/main';
 import { Create{{className}} } from './modals/create';
+import { Read{{className}} } from './modals/read';
 
 @Injectable()
 export class {{className}}Service {
@@ -22,7 +23,7 @@ export class {{className}}Service {
     });
   }
 
-  async findAll(): Promise<{{className}}[]> {
+  async findAll(): Promise<Read{{className}}[]> {
     return await this.{{singularName}}Modal.findAll();
   }
 

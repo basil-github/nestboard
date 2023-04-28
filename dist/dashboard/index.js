@@ -14,7 +14,6 @@ const create_1 = require("../controls/create");
 const types_1 = require("../controls/types");
 const express = require("express");
 const path = require("path");
-var cors = require("cors");
 class DashBoardModule {
     static setup(app, document) {
         const httpAdapter = app.getHttpAdapter();
@@ -24,7 +23,7 @@ class DashBoardModule {
             res.setHeader("Cache-Control", "no-cache");
             res.setHeader("Connection", "keep-alive");
             const dataInterval = setInterval(() => {
-                res.write(`data: ${JSON.stringify(true)}\n\n`);
+                res.write(`data: ${JSON.stringify(true)}`);
             }, 1000);
             req.on("close", () => {
                 clearInterval(dataInterval);

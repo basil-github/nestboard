@@ -12,7 +12,7 @@ export class DashBoardModule {
       res.setHeader("Cache-Control", "no-cache");
       res.setHeader("Connection", "keep-alive");
       const dataInterval = setInterval(() => {
-        res.write(`data: ${JSON.stringify(true)}`);
+        res.write(`data: ${JSON.stringify(true)}\n\n`);
       }, 1000);
       req.on("close", () => {
         clearInterval(dataInterval);

@@ -1,6 +1,6 @@
 {
   "name": "nestboard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NestBoard is a package that allows you to easily create CRUD APIs through a dashboard. With this package, you can quickly generate code for creating, reading, updating, and deleting records in your database. In addition to CRUD APIs, the package also provides dashboard features for managing and organizing all of your APIs. NestBoard is built on top of Swagger documentation, which means that it uses the Swagger API specification to generate and manage your API code. This allows you to easily modify and customize your APIs through a web-based dashboard without needing to manually edit any code.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
